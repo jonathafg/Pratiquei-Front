@@ -7,6 +7,9 @@ export const MainContainer = styled.main`
   height: 90%;
   justify-content: space-between;
   align-items: start;
+  p{
+    font-size: 18px;
+  }
 `;
 
 export const QuestBox = styled.div`
@@ -29,7 +32,8 @@ export const QuestBox = styled.div`
 
 export const Alternativas = styled.div`
   display: flex;
-  flex-direction: row wrap;
+  flex-direction: row;
+  flex-wrap: wrap;
   justify-content: center;
   width: 80%;
   height: 50%;

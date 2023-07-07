@@ -34,15 +34,18 @@ const ModalAddTurma = (props) => {
         })
         .catch((erro) => {
           limpaInputs(),
-            alert(erro.response.data.message),
-            props.setShowModalTurma(false);
+          alert(erro.response.data.message),
+          props.setShowModalTurma(false);
         });
   }
 
   return (
     <M.Background onClick={clickFora}>
       <M.MainContainer id="modal">
-        <button className="close" onClick={() => props.setShowModal(false)}>
+        <button
+          className="close"
+          onClick={() => props.setShowModalTurma(false)}
+        >
           x
         </button>
         <h1>Cadastro de turma</h1>

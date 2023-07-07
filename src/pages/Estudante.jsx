@@ -14,7 +14,6 @@ const Estudante = () => {
   const [emAtividade, setEmAtividade] = useState(false);
   const [emResultado, setEmResultado] = useState(false);
   const [acertos, setAcertos] = useState(0);
-  // const [nota, setNota] = useState(0);
   const [atividadeAtual, setAtividadeAtual] = useState("");
   const router = useRouter();
 
@@ -33,7 +32,6 @@ const Estudante = () => {
     axios
       .post(`${baseUrl}tentativas`, body)
       .then((resposta) => {
-        console.log(resposta.data);
       })
       .catch((erro) => {
         erro.response.data.message;
@@ -45,7 +43,6 @@ const Estudante = () => {
     const infs = JSON.parse(jsonInfs);
     if (infs !== null) {
       setInfAluno(infs);
-      console.log(infs);
     }
 
     const buscaAtividades = () => {
@@ -53,7 +50,6 @@ const Estudante = () => {
         .get(`${baseUrl}atividades/turma/${infs.infs.turmaId}`)
         .then((resposta) => {
           setAtividades(resposta.data);
-          //   console.log(resposta.data);
         })
         .catch((erro) => {
           alert(erro.response.data.message);
@@ -61,8 +57,6 @@ const Estudante = () => {
     };
 
     buscaAtividades();
-
-    console.log(infs);
   }, [emAtividade]);
 
   return (
@@ -81,21 +75,23 @@ const Estudante = () => {
             ) : (
               <p>Vazio</p>
             )}
-            <List>
-              <ListAtividades
-                atividades={atividades}
-                escolheAtividade={escolheAtividade}
-              />
-            </List>
+            {infAluno && infAluno.infs !== undefined ? (
+              <List>
+                <ListAtividades
+                  user={infAluno.user}
+                  idAluno={infAluno.infs.id}
+                  atividades={atividades}
+                  escolheAtividade={escolheAtividade}
+                />
+              </List>
+            ) : null}
           </>
         ) : emResultado === false ? (
           <Questionario
             atividadeAtual={atividadeAtual}
             setEmAtividade={setEmAtividade}
             setEmResultado={setEmResultado}
-            // acertos={acertos}
             setAcertos={setAcertos}
-            // setNota={setNota}
             idAluno={infAluno.infs.id}
           />
         ) : (
@@ -105,7 +101,6 @@ const Estudante = () => {
             setEmResultado={setEmResultado}
             acertos={acertos}
             setAcertos={setAcertos}
-            // nota={nota}
             idAluno={infAluno.infs.id}
           />
         )}

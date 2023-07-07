@@ -4,7 +4,7 @@ import React from "react";
 const ListTurmas = (props) => {
   const linhaAtividade = props.turmas.map((turma) => {
     return (
-      <Linha>
+      <Linha key={turma.id}>
         <p>{turma.name}</p>
         <p>{turma.Alunos.length}</p>
       </Linha>

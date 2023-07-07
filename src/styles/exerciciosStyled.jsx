@@ -21,12 +21,15 @@ export const MainContainer = styled.main`
     h1{
       margin: 0;
     }
-    button{
+    #turmas{
       position: absolute;
       right: 10px;
     }
+    #atividades{
+      position: absolute;
+      right: 150px;
+    }
   }
-
   button {
     background-color: #364143;
     margin-left: 15px;
@@ -52,8 +55,7 @@ export const MainContainer = styled.main`
     padding: 4px;
     width: 35%;
   }
-`
-
+`;
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
@@ -62,15 +64,27 @@ export const Container = styled.div`
   height: 80%;
   margin-bottom: 30px;
 
-  form {
+  .busca {
     display: flex;
     flex-direction: row;
     justify-content: start;
     align-items: center;
     width: 100%;
-
-    input {
-      margin: 0 10px;
+    form {
+      display: flex;
+      flex-direction: row;
+      justify-content: start;
+      align-items: center;
+      margin-left: 5px;
+      width: 80%;
+      input {
+        border-radius: 15px;
+        box-shadow: inset -1px 1px 5px #808080, inset 2px 3px 5px #d1d1d1;
+        outline: none;
+        border: none;
+        padding: 4px 8px;
+        width: 50%;
+      }
     }
   }
 
@@ -82,5 +96,15 @@ export const Container = styled.div`
     background-color: rgba(188, 188, 188, 1);
     align-items: center;
     border-radius: 5px;
+  }
+
+  button {
+    cursor: pointer;
+    &:hover {
+      transform: scale(1.1);
+      background-color: #1e2425;
+      color: white;
+      transition: 0.5s;
+    }
   }
 `;

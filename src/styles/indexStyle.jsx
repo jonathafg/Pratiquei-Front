@@ -1,4 +1,5 @@
 import styled from "styled-components";
+import logoCentro from "../images/logoCentro.png";
 
 export const MainContainer = styled.main`
   display: flex;
@@ -7,12 +8,19 @@ export const MainContainer = styled.main`
   align-items: center;
   width: 100vw;
   min-height: 100vh;
+  background-image: url(${logoCentro?.src});
+  background-repeat: no-repeat;
+  background-position: center;
+  background-size: 450px;
   background: linear-gradient(
     156deg,
     rgba(255, 255, 255, 1) 0%,
     rgba(220, 220, 220, 1) 35%,
     rgba(188, 188, 188, 1) 100%
   );
+  img{
+    position: absolute;
+  }
 `;
 
 export const LoginForm = styled.form`
@@ -40,7 +48,6 @@ export const LoginForm = styled.form`
     border: none;
     border-radius: 15px;
     padding: 8px;
-    /* background: linear-gradient(156deg, rgba(56,68,70,1) 0%, rgba(48,57,59,1) 35%, rgba(38,47,49,1) 100%); */
     background-color: #364143;
     box-shadow: 1px 3px 5px #808080;
     color: #0c9abe;

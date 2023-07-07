@@ -1,19 +1,16 @@
 import baseUrl from "@/constants/BaseURL";
 import { Container, MainContainer } from "@/styles/turmasStyled";
 import axios from "axios";
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import ListAlunos from "./ListAlunos";
 import useForm from "@/hooks/useForm";
 import ListTurmas from "./ListTurmas";
 
 const Turmas = (props) => {
-  const [infProfessor, seInfProfessor] = useState();
   const [turmas, setTurmas] = useState([]);
   const { formulario, onChange, limpaInputs } = useForm({
     name: "",
   });
-  console.log(infProfessor);
-  console.log(turmas);
 
   function buscaTurmaPorNome(event) {
     event.preventDefault();
@@ -26,7 +23,6 @@ const Turmas = (props) => {
           .get(`${baseUrl}turmas/${props.infProfessor.id}/${formulario.name}`)
           .then((resposta) => {
             setTurmas(resposta.data);
-            // console.log(resposta.data);
           })
           .catch((erro) => {
             alert(erro.response.data.message);
@@ -50,14 +46,14 @@ const Turmas = (props) => {
   }
 
   useEffect(() => {
-    seInfProfessor(props.infProfessor);
     buscaTurmas();
   }, [props.showModalTurma]);
 
   return (
     <MainContainer>
       <div className="header">
-        <p onClick={() => props.setShowModalTurma(true)}>Cadastrar turma</p>
+        <h1>Turmas</h1>
+        <button onClick={() => props.setShowModalTurma(true)}>Cadastrar turma</button>
       </div>
       <Container>
         <form onSubmit={buscaTurmaPorNome}>

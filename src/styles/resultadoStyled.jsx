@@ -21,6 +21,7 @@ export const Content = styled.div`
   margin-bottom: 30px;
   background-color: rgba(188, 188, 188, 1);
   box-shadow: 1px 3px 5px #808080;
+  
 `;
 
 export const NavButtons = styled.div`

@@ -5,8 +5,10 @@ import React, { useState } from "react";
 import { useRouter } from "next/router";
 import axios from "axios";
 import baseUrl from "@/constants/BaseURL";
+import Image from "next/image";
+import logoCentro from "../images/logoCentro.png";
 
-const index = () => {
+const Index = () => {
   const [showModal, setShowModal] = useState(false);
   const { formulario, onChange, limpaInputs } = useForm({
     username: "",
@@ -37,6 +39,7 @@ const index = () => {
       <SignupButton onClick={() => setShowModal(true)}>
         CRIAR CONTA
       </SignupButton>
+      <Image src={logoCentro}/>
       {showModal === true ? <ModalSignup setShowModal={setShowModal} /> : null}
       <h1>Login</h1>
       <LoginForm onSubmit={login}>
@@ -51,7 +54,7 @@ const index = () => {
         />
         <input
           id="password"
-          type="text"
+          type="password"
           name="password"
           placeholder="Senha"
           value={formulario.password}
@@ -65,4 +68,4 @@ const index = () => {
   );
 };
 
-export default index;
+export default Index;

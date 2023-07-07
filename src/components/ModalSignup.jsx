@@ -4,7 +4,6 @@ import * as M from "../styles/modalSignupStyle";
 import Link from "next/link";
 import axios from "axios";
 import baseUrl from "@/constants/BaseURL";
-import { useRouter } from "next/router";
 
 const ModalSignup = (props) => {
   const { formulario, onChange, limpaInputs } = useForm({
@@ -12,7 +11,6 @@ const ModalSignup = (props) => {
     password: "",
     nickname: "",
   });
-  const router = useRouter();
 
   const clickFora = (event) => {
     let modal = document.getElementById("modal");
@@ -26,10 +24,9 @@ const ModalSignup = (props) => {
       axios
         .post(`${baseUrl}professores`, formulario)
         .then((resposta) => {
-          const jsonInf = JSON.stringify(resposta.data);
-          localStorage.setItem("userInf", jsonInf);
           limpaInputs();
-          router.push("/Home");
+          alert(resposta.data)
+          props.setShowModal(false)
         })
         .catch((erro) => {
           limpaInputs(), alert(erro.response.data.message);

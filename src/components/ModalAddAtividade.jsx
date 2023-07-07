@@ -1,18 +1,16 @@
 import useForm from "@/hooks/useForm";
 import React, { useEffect, useReducer, useState } from "react";
-import * as M from "../styles/modalAlunoStyle";
+import * as M from "../styles/modalAtividadeStyle";
 import Link from "next/link";
 import axios from "axios";
 import baseUrl from "@/constants/BaseURL";
 import { useRouter } from "next/router";
 
-const ModalAddAluno = (props) => {
+const ModalAddAtividade = (props) => {
   const [turmas, setTurmas] = useState([]);
   const { formulario, onChange, limpaInputs } = useForm({
-    username: "",
-    password: "",
-    nickname: "",
-    turmaId: ""
+    name: "",
+    enunciado: "",
   });
   const router = useRouter();
 
@@ -25,30 +23,29 @@ const ModalAddAluno = (props) => {
   const clickFora = (event) => {
     let modal = document.getElementById("modal");
     if (!modal?.contains(event.target)) {
-      props.setShowModalAluno(false);
+      props.setShowModalAtividade(false);
     }
   };
 
-  function addAluno(event) {
+  function addAtividade(event) {
     event.preventDefault()
 
     const body = {
-      username: formulario.username,
-      password: formulario.password,
-      nickname: formulario.nickname,
-      turmaId: formulario.turmaId,
+      name: formulario.name,
+      professorId: props.infProfessor.id,
+      enunciado: formulario.enunciado,
     };
     axios
-        .post(`${baseUrl}alunos`, body)
+        .post(`${baseUrl}atividades`, body)
         .then((resposta) => {
           alert(resposta.data);
           limpaInputs();
-          props.setShowModalAluno(false);
+          props.setShowModalAtividade(false);
         })
         .catch((erro) => {
           limpaInputs(),
             alert(erro.response.data.message),
-            props.setShowModalAluno(false);
+            props.setShowModalAtividade(false);
         });
   }
 
@@ -58,6 +55,7 @@ const ModalAddAluno = (props) => {
         .get(`${baseUrl}turmas/${props.infProfessor.id}`)
         .then((resposta) => {
           setTurmas(resposta.data);
+          console.log(resposta.data);
         })
         .catch((erro) => {
           alert(erro.response.data.message);
@@ -72,49 +70,35 @@ const ModalAddAluno = (props) => {
   return (
     <M.Background onClick={clickFora}>
       <M.MainContainer id="modal">
-        <button className="close" onClick={() => props.setShowModalAluno(false)}>
+        <button className="close" onClick={() => props.setShowModalAtividade(false)}>
           x
         </button>
-        <h1>Cadastro de Aluno</h1>
-        <form onSubmit={addAluno}>
+        <h1>Cadastro de Atividades</h1>
+        <form onSubmit={addAtividade}>
           <input
-            placeholder="Nome de usuário(a)"
-            name="username"
+            placeholder="Nome da atividade"
+            name="name"
             type="text"
-            value={formulario.username}
+            value={formulario.name}
             onChange={onChange}
             required
           />
           <input
-            placeholder="Senha"
-            name="password"
-            type="password"
-            value={formulario.password}
-            onChange={onChange}
-            required
-          />
-          <input
-            placeholder="Como o aluno se chama "
-            name="nickname"
+            placeholder="Enunciado"
+            name="enunciado"
             type="text"
-            value={formulario.nickname}
+            value={formulario.enunciado}
             onChange={onChange}
             required
           />
-          <select name="turmaId" 
-          value={formulario.turmaId} 
-          onChange={onChange}>
-            <option value={""}> Selecione a turma</option>
-            {}
-            {opcoesTurma}
-          </select>
           <button>Finalizar</button>
         </form>
         <span>
+          As questões podem ser adicionadas mais tarde
         </span>
       </M.MainContainer>
     </M.Background>
   );
 };
 
-export default ModalAddAluno;
+export default ModalAddAtividade;

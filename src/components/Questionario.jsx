@@ -24,7 +24,6 @@ const Questionario = (props) => {
       axios
         .post(`${baseUrl}respostas`, body)
         .then((resposta) => {
-          console.log(resposta.data);
         })
         .catch((erro) => {
           alert(erro.response.data.message);
@@ -43,29 +42,10 @@ const Questionario = (props) => {
       axios
         .post(`${baseUrl}respostas`, body)
         .then((resposta) => {
-          console.log(resposta.data);
         })
         .catch((erro) => {
           alert(erro.response.data.message);
         });
-
-      // atividade.Questoes.map((questao) => {
-      //   axios
-      //     .get(`${baseUrl}respostas/${props.idAluno}/${questao.id}`)
-      //     .then((resposta) => {
-      //       const respostaAluno =
-      //         resposta.data[resposta.data.length - 1].respostadoAluno;
-      //       let certo = 0
-      //       if (respostaAluno === questao.alternativaCorreta) {
-      //         console.log("acerto miseravi");
-      //         certo = certo +1
-      //       }
-      //       props.setAcertos(certo)
-      //     })
-      //     .catch((erro) => {
-      //       alert(erro.response.data.message);
-      //     });
-      // });
       props.setEmResultado(true);
     }
   };
@@ -84,54 +64,77 @@ const Questionario = (props) => {
       };
       buscaAtividade();
     }
-  }, []);
+  }, [id]);
 
   return (
-    <MainContainer>
-      <h2>Atividade de {atividade.name}</h2>
-      <p>{atividade.enunciado}</p>
-      <QuestBox>
-        <p id="pergunta">Pergunta {indexQuestao + 1}</p>
-        {atividade && atividade.name !== undefined ? (
-          <h2>{atividade.Questoes[indexQuestao].conteudo}</h2>
-        ) : (
-          <p>Carregando Questão</p>
-        )}
-        <Alternativas>
-          {atividade && atividade.name !== undefined
-            ? atividade.Questoes[indexQuestao].alternativas.map(
-                (alternativa) => {
-                  return (
-                    <button onClick={() => setEscolha(alternativa)}>
-                      {alternativa}
+    <>
+      {atividade.name && atividade.Questoes.length > 0 ? (
+        <MainContainer>
+          <h2>atividade && de {atividade.name}</h2>
+          <p>{atividade.enunciado}</p>
+          <QuestBox>
+            <p id="pergunta">Pergunta {indexQuestao + 1}</p>
+            {atividade && atividade.name !== undefined ? (
+              <h2>{atividade.Questoes[indexQuestao].conteudo}</h2>
+            ) : (
+              <p>Carregando Questão</p>
+            )}
+            <Alternativas>
+              {atividade && atividade.name !== undefined
+                ? atividade.Questoes[indexQuestao].alternativas.map(
+                    (alternativa) => {
+                      return (
+                        <button
+                          key={alternativa}
+                          onClick={() => setEscolha(alternativa)}
+                        >
+                          {alternativa}
+                        </button>
+                      );
+                    }
+                  )
+                : null}
+            </Alternativas>
+            <NavButtons>
+              {atividade && atividade.name !== undefined ? (
+                <>
+                  {indexQuestao === 0 ? (
+                    <button onClick={() => props.setEmAtividade(false)}>
+                      Voltar
                     </button>
-                  );
-                }
-              )
-            : null}
-        </Alternativas>
-        <NavButtons>
-          {atividade && atividade.name !== undefined ? (
-            <>
-              {indexQuestao === 0 ? (
-                <button onClick={() => props.setEmAtividade(false)}>
-                  Voltar
-                </button>
-              ) : (
-                <button onClick={() => props.setIndexQuestao(indexQuestao - 1)}>
-                  Voltar
-                </button>
-              )}
-              {indexQuestao === atividade.Questoes.length - 1 ? (
-                <button onClick={() => finalizar()}>Avançar</button>
-              ) : (
-                <button onClick={() => avançar()}>Avançar</button>
-              )}
-            </>
-          ) : null}
-        </NavButtons>
-      </QuestBox>
-    </MainContainer>
+                  ) : (
+                    <button
+                      onClick={() => props.setIndexQuestao(indexQuestao - 1)}
+                    >
+                      Voltar
+                    </button>
+                  )}
+                  {indexQuestao === atividade.Questoes.length - 1 ? (
+                    <button onClick={() => finalizar()}>Avançar</button>
+                  ) : (
+                    <button onClick={() => avançar()}>Avançar</button>
+                  )}
+                </>
+              ) : null}
+            </NavButtons>
+          </QuestBox>
+        </MainContainer>
+      ) : (
+        <MainContainer>
+          <QuestBox>
+            <h1>
+              Nenhuma questão cadastrada no momento, fale com seu professor para
+              solicitar alguma.
+            </h1>
+            <NavButtons>
+              <button onClick={() => props.setEmAtividade(false)}>
+                Voltar
+              </button>
+            </NavButtons>
+          </QuestBox>
+        </MainContainer>
+      )}
+    </>
   );
 };
 

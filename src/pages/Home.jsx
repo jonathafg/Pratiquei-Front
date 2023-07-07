@@ -1,4 +1,8 @@
 import {
+  AbaAluno,
+  AbaExercicio,
+  AbaRelatorio,
+  AbaTurma,
   Content,
   Logout,
   MainContainer,
@@ -18,12 +22,19 @@ import Relatorios from "@/components/Relatorios";
 import { useRouter } from "next/router";
 import ModalAddTurma from "@/components/ModalAddTurma";
 import ModalAddAluno from "@/components/ModalAddAluno";
+import ModalAddAtividade from "@/components/ModalAddAtividade";
+import ModalAddVinculo from "@/components/ModalAddVinculo";
+import ModalAddQuestao from "@/components/ModalAddQuestao";
 
 const Home = () => {
   const [currentTab, setCurrentTab] = useState("");
   const [infProfessor, seInfProfessor] = useState();
   const [showModalTurma, setShowModalTurma] = useState(false);
   const [showModalAluno, setShowModalAluno] = useState(false);
+  const [showModalAtividade, setShowModalAtividade] = useState(false);
+  const [showModalVinculo, setShowModalVinculo] = useState(false);
+  const [showModalQuestao, setShowModalQuestao] = useState(false);
+  const [atividadeAtual, setAtividadeAtual] = useState("");
   const router = useRouter();
 
   function logout() {
@@ -34,10 +45,9 @@ const Home = () => {
   useEffect(() => {
     const jsonInfs = localStorage.getItem("userInf");
     const infs = JSON.parse(jsonInfs);
-    // console.log(infs);
+
     if (infs !== null) {
-      seInfProfessor(infs.infs);
-      // console.log(infs.infs.nickname);
+      seInfProfessor(infs);
     }
   }, []);
 
@@ -45,74 +55,113 @@ const Home = () => {
     <MainContainer>
       {showModalTurma === true ? (
         <ModalAddTurma
-          infProfessor={infProfessor}
+          infProfessor={infProfessor.infs}
           setShowModalTurma={setShowModalTurma}
         />
       ) : null}
       {showModalAluno === true ? (
         <ModalAddAluno
-          infProfessor={infProfessor}
+          infProfessor={infProfessor.infs}
           setShowModalAluno={setShowModalAluno}
+        />
+      ) : null}
+      {showModalAtividade === true ? (
+        <ModalAddAtividade
+          infProfessor={infProfessor.infs}
+          setShowModalAtividade={setShowModalAtividade}
+        />
+      ) : null}
+      {showModalVinculo === true ? (
+        <ModalAddVinculo
+          infProfessor={infProfessor.infs}
+          setShowModalVinculo={setShowModalVinculo}
+        />
+      ) : null}
+      {showModalQuestao === true ? (
+        <ModalAddQuestao
+          infProfessor={infProfessor.infs}
+          setShowModalQuestao={setShowModalQuestao}
+          atividadeAtual={atividadeAtual}
         />
       ) : null}
       <MenuNavegacao>
         <div>
           <div className="logo" onClick={() => setCurrentTab("")}>
-            <Image className="logo1" src={logo} />
+            <Image alt="home" className="logo1" src={logo} />
           </div>
-          <div className="aleta" onClick={() => setCurrentTab("turmas")}>
-            <Image className="imagemPqna" src={turmas} />
-            <div className="text">
+          <AbaTurma
+            onClick={() => setCurrentTab("turmas")}
+            currentTab={currentTab}
+          >
+            <Image alt="turmas" src={turmas} />
+            <div>
               <p>Turmas</p>
               <p className="seta">&#10148;</p>
             </div>
-          </div>
-          <div className="aleta" onClick={() => setCurrentTab("alunos")}>
-            <Image className="imagemPqna" src={alunos} />
-            <div className="text">
+          </AbaTurma>
+          <AbaAluno
+            onClick={() => setCurrentTab("alunos")}
+            currentTab={currentTab}
+          >
+            <Image alt="alunos" src={alunos} />
+            <div>
               <p>Alunos</p>
               <p className="seta">&#10148;</p>
             </div>
-          </div>
-          <div className="aleta" onClick={() => setCurrentTab("exercicios")}>
-            <Image src={exercicios} />
-            <div className="text">
+          </AbaAluno>
+          <AbaExercicio
+            onClick={() => setCurrentTab("exercicios")}
+            currentTab={currentTab}
+          >
+            <Image alt="exercicios" src={exercicios} />
+            <div>
               <p>Exercicios</p>
               <p className="seta">&#10148;</p>
             </div>
-          </div>
-          <div className="aleta" onClick={() => setCurrentTab("relatorios")}>
-            <Image src={relatorios} />
-            <div className="text">
+          </AbaExercicio>
+          <AbaRelatorio
+            onClick={() => setCurrentTab("relatorios")}
+            currentTab={currentTab}
+            // user={infProfessor.user}
+          >
+            <Image alt="relatorios" src={relatorios} />
+            <div>
               <p>Relatórios</p>
               <p className="seta">&#10148;</p>
             </div>
-          </div>
+          </AbaRelatorio>
           <Logout onClick={() => logout()}>Sair</Logout>
         </div>
       </MenuNavegacao>
 
-      {infProfessor && infProfessor.nickname !== undefined ? (
+      {infProfessor && infProfessor.infs.nickname !== undefined ? (
         <Content>
           {currentTab === "" ? (
-            <h1>Bem vindo professor {infProfessor.nickname}</h1>
+            <h1>Bem vindo professor {infProfessor.infs.nickname}</h1>
           ) : currentTab === "turmas" ? (
             <Turmas
-              infProfessor={infProfessor}
+              infProfessor={infProfessor.infs}
               showModalTurma={showModalTurma}
               setShowModalTurma={setShowModalTurma}
             />
           ) : currentTab === "alunos" ? (
             <Alunos
-              infProfessor={infProfessor}
+              infProfessor={infProfessor.infs}
               showModalAluno={showModalAluno}
               setShowModalAluno={setShowModalAluno}
             />
           ) : currentTab === "exercicios" ? (
-            <Exercicios infProfessor={infProfessor} />
+            <Exercicios
+              infProfessor={infProfessor.infs}
+              showModalAtividade={showModalAtividade}
+              showModalVinculo={showModalVinculo}
+              setShowModalAtividade={setShowModalAtividade}
+              setShowModalVinculo={setShowModalVinculo}
+              setShowModalQuestao={setShowModalQuestao}
+              setAtividadeAtual={setAtividadeAtual}
+            />
           ) : (
-            // <></>
-            <Relatorios infProfessor={infProfessor} />
+            <Relatorios infProfessor={infProfessor.infs} />
           )}
         </Content>
       ) : (

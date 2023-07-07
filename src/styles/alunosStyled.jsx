@@ -11,26 +11,36 @@ export const MainContainer = styled.main`
   justify-content: space-between;
 
   .header {
-    align-self: flex-end;
-    margin: 10px;
     display: flex;
-    width: 15%;
-    height: 30px;
-    padding-bottom: 3px;
+    flex-direction: row;
+    margin-top: 15px;
+    width: 100%;
     justify-content: center;
     align-items: center;
+    position: relative;
+    h1{
+      margin: 0;
+    }
+    button{
+      position: absolute;
+      right: 10px;
+    }
+  }
+
+  button {
+    background-color: #364143;
+    margin-left: 15px;
     border: none;
     border-radius: 25px;
     box-shadow: 1px 3px 5px #808080;
     font-weight: bold;
-    background-color: #364143;
     color: #0c9abe;
-    cursor: pointer;
-    &:hover{
-        transform: scale(1.1);
-        background-color: #1e2425;
-        color: white;
-        transition: 0.5s;
+    padding: 10px 14px;
+    &:hover {
+      transform: scale(1.1);
+      background-color: #1e2425;
+      color: white;
+      transition: 0.5s;
     }
   }
 
@@ -41,25 +51,16 @@ export const MainContainer = styled.main`
     border: none;
     padding: 4px;
     width: 35%;
-    
   }
 
-  .pesquisar {
-    background-color: #364143;
-    border-radius: 15px;
-    border: none;
-    color: #0c9abe;
-    padding: 8px;
-    margin-left: 15px;
-  }
 `;
+
 export const Container = styled.div`
   display: flex;
   flex-direction: column;
   align-items: center;
   width: 90%;
   height: 80%;
-  /* border: 1px solid black; */
   margin-bottom: 30px;
 
   .nome {
@@ -68,13 +69,16 @@ export const Container = styled.div`
     justify-content: start;
     align-items: center;
     margin-bottom: 0;
-    /* margin-right: 70%; */
-    /* background-color: green; */
     width: 100%;
 
-    input {
-        margin: 0 10px;
-        width: 50%;
+    select {
+      border-radius: 15px;
+      box-shadow: inset -1px 1px 5px #808080, inset 2px 3px 5px #d1d1d1;
+      outline: none;
+      border: none;
+      padding: 4px;
+      width: 35%;
+      margin: 0 10px;
     }
   }
 
@@ -95,11 +99,10 @@ export const Container = styled.div`
     flex-direction: column;
     width: 100%;
     height: 90%;
-    background-color: rgba(188,188,188,1);
+    background-color: rgba(188, 188, 188, 1);
     align-items: center;
     border-radius: 5px;
   }
-
 
   .cabecalho {
     display: flex;
@@ -118,16 +121,6 @@ export const Container = styled.div`
 
     p {
       width: 50%;
-    }
-  }
-
-  button {
-    cursor: pointer;
-    &:hover{
-        transform: scale(1.1);
-        background-color: #1e2425;
-        color: white;
-        transition: 0.5s;
     }
   }
 `;

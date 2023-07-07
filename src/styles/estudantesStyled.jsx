@@ -41,8 +41,6 @@ export const Content = styled.section`
   height: 80%;
   justify-content: space-between;
   align-items: start;
-
-  /* border: 1px solid black; */
 `;
 
 export const List = styled.div`
@@ -52,7 +50,6 @@ export const List = styled.div`
   height: 75%;
   justify-content: space-between;
   align-items: center;
-  /* border: 1px solid black; */
   border-radius: 5px;
   margin-bottom: 30px;
   background-color: rgba(188, 188, 188, 1);

@@ -1,14 +1,43 @@
+import baseUrl from "@/constants/BaseURL";
 import { Header, Linha, MainContainer } from "@/styles/listAtividadesStyles";
-import React from "react";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import LinhaTentativa from "./LinhaTentativa";
+import LinhaTentativaAluno from "./LinhaTentativaAluno";
 
 const ListAtividades = (props) => {
-
   const linhaAtividade = props.atividades.map((atividade) => {
     return (
-    <Linha onClick={() => props.escolheAtividade(atividade.atividadesId)}>
-        <p>{atividade.atividade.name}</p>
-        <p>{atividade.atividade.Tentativas.length}</p>
-    </Linha>);
+      <>
+        {props.user === "Aluno" ? (
+          <Linha
+            key={atividade.atividadesId}
+            onClick={() => props.escolheAtividade(atividade.atividadesId)}
+          >
+            <p>
+              {atividade.atividade.name} - {atividade.atividade.enunciado}
+            </p>
+            <LinhaTentativaAluno
+              idAluno={props.idAluno}
+              idAtividade={atividade.atividade.id}
+            />
+          </Linha>
+        ) : (
+          <Linha
+            key={atividade.atividadesId}
+            onClick={() => props.escolheAtividade(atividade.atividadesId)}
+          >
+            <p>
+              {atividade.atividade.name} - {atividade.atividade.enunciado}
+            </p>
+            <LinhaTentativa
+              idAluno={props.idAluno}
+              idAtividade={atividade.atividade.id}
+            />
+          </Linha>
+        )}
+      </>
+    );
   });
 
   return (
@@ -18,7 +47,6 @@ const ListAtividades = (props) => {
         <p>Tentativas realizadas:</p>
       </Header>
       {linhaAtividade}
-      
     </MainContainer>
   );
 };
